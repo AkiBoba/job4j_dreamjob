@@ -26,12 +26,6 @@ public class PostController {
         return "addPost";
     }
 
-    @GetMapping("/editPost")
-    public String editPost(Model model) {
-        model.addAttribute("post", new Post(0, "Заполните поле"));
-        return "editPost";
-    }
-
     @GetMapping("/formAddPost")
     public String formAddPost(Model model) {
         return "addPost";
@@ -41,7 +35,6 @@ public class PostController {
     public String savePost(HttpServletRequest req) {
         String name = req.getParameter("name");
         System.out.println(name);
-        postService.add(new Post(1, name));
         return "redirect:/posts";
     }
 }
