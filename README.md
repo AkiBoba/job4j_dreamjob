@@ -24,4 +24,5 @@
 
 3.2.3. Контроллеры. Spring + Thymeleaf
 
-3. PostController.savePost. Создание вакансии. [#504849 #274879] -
+3. PostController.savePost. Создание вакансии. [#504849 #274879]
+Добавил метод add(Post post) для записи новой вакансии в store
