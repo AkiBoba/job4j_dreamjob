@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PostStore {
 
     private static final PostStore INST = new PostStore();
-
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private PostStore() {

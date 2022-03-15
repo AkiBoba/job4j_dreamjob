@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PostController {
-
     private final PostStore store = PostStore.instOf();
 
     @GetMapping("/posts")
