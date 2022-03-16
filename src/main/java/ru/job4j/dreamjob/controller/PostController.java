@@ -29,11 +29,22 @@ public class PostController {
         return "addPost";
     }
 
-    @PostMapping("/savePost")
-    public String savePost(HttpServletRequest req) {
+    @GetMapping("/formUpdatePost/{postId}")
+    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
+        model.addAttribute("post", store.findById(id));
+        return "updatePost";
+    }
+
+    @PostMapping("/createPost")
+    public String createPost(HttpServletRequest req) {
         String name = req.getParameter("name");
-        System.out.println(name);
         store.add(new Post(store.findAll().size() + 1, name));
+        return "redirect:/posts";
+    }
+
+    @PostMapping("/updatePost")
+    public String updatePost(@ModelAttribute Post post) {
+        store.update(post);
         return "redirect:/posts";
     }
 
