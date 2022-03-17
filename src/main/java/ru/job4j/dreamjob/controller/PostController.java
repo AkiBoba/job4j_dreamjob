@@ -29,17 +29,17 @@ public class PostController {
         return "addPost";
     }
 
-    @GetMapping("/formUpdatePost/{postId}")
-    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
-        model.addAttribute("post", store.findById(id));
-        return "updatePost";
-    }
-
     @PostMapping("/createPost")
     public String createPost(HttpServletRequest req) {
         String name = req.getParameter("name");
         store.add(new Post(store.findAll().size() + 1, name));
         return "redirect:/posts";
+    }
+
+    @GetMapping("/formUpdatePost/{postId}")
+    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
+        model.addAttribute("post", store.findById(id));
+        return "updatePost";
     }
 
     @PostMapping("/updatePost")
