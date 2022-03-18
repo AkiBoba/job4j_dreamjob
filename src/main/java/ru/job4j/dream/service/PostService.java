@@ -5,10 +5,10 @@ import ru.job4j.dream.model.Post;
 import ru.job4j.dream.store.PostStore;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class PostService {
+
     private final PostStore store;
 
     public PostService(PostStore store) {

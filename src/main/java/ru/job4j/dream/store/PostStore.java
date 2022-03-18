@@ -1,6 +1,5 @@
 package ru.job4j.dream.store;
 
-
 import org.springframework.stereotype.Repository;
 import ru.job4j.dream.model.Post;
 
