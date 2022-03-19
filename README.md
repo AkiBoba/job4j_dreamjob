@@ -31,4 +31,5 @@
 
 3.2.4. Архитектура Web приложений
 2. Связь слоев через Spring DI. [#504856]
-+ CandidateService
++ CandidateService 
++ Собрано в один пакет ru.job4j.dreamjob
