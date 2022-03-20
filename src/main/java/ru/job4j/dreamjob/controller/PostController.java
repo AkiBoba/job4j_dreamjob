@@ -13,13 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PostController {
-
     private final PostService postService;
-
     public PostController(PostService postService) {
-
         this.postService = postService;
-
     }
 
     @GetMapping("/posts")
@@ -42,7 +38,7 @@ public class PostController {
     @PostMapping("/createPost")
     public String createPost(HttpServletRequest req) {
         String name = req.getParameter("name");
-        postService.add(new Post(postService.findAll().size() + 1, name));
+        postService.add(new Post(1, name));
         return "redirect:/posts";
     }
 

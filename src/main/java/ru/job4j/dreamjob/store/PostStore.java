@@ -13,7 +13,7 @@ public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
-    private final AtomicInteger ids = new AtomicInteger(4);
+    private final AtomicInteger ids = new AtomicInteger(3);
 
     private PostStore() {
         posts.put(1, new Post(1, "Junior Java Job",

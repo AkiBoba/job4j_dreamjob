@@ -42,7 +42,7 @@ public class CandidateController {
     @PostMapping("/createCandidate")
     public String createCandidate(HttpServletRequest req) {
         String name = req.getParameter("name");
-        candidateService.add(new Candidate(candidateService.findAll().size() + 1, name));
+        candidateService.add(new Candidate(1, name));
         return "redirect:/candidates";
     }
 
