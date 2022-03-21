@@ -37,6 +37,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Имя </th>
+                <th scope="col">Фото </th>
             </tr>
             </thead>
             <tbody>
@@ -47,6 +48,9 @@
                         <i class="fa fa-edit"></i>
                     </a>
                     <span th:text="${candidate.name}"></span>
+                </td>
+                <td>
+                    <span th:text="${candidate.photo}"></span>
                 </td>
             </tr>
             </tbody>

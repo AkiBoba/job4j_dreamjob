@@ -10,6 +10,7 @@ import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 public class CandidateController {
@@ -42,7 +43,8 @@ public class CandidateController {
     @PostMapping("/createCandidate")
     public String createCandidate(HttpServletRequest req) {
         String name = req.getParameter("name");
-        candidateService.add(new Candidate(1, name));
+        byte[] photo = req.getParameter("photo").getBytes(StandardCharsets.UTF_8);
+        candidateService.add(new Candidate(1, name, photo));
         return "redirect:/candidates";
     }
 

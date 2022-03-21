@@ -2,7 +2,6 @@ package ru.job4j.dreamjob.store;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.model.Post;
 
 import java.util.Collection;
 import java.util.Map;

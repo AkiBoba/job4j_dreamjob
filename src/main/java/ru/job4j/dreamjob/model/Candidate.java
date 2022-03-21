@@ -7,6 +7,7 @@ public class Candidate {
     private String name;
     private String desc;
     private String created;
+    private byte[] photo;
 
     public Candidate(int id, String name, String desc, String created) {
         this.id = id;
@@ -21,6 +22,12 @@ public class Candidate {
     }
 
     public Candidate() {
+    }
+
+    public Candidate(int id, String name, byte[] photo) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
     }
 
     public int getId() {
