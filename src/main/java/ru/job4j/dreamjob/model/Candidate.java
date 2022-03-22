@@ -79,4 +79,12 @@ public class Candidate {
     public int hashCode() {
         return Objects.hash(id, name, desc, created);
     }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 }

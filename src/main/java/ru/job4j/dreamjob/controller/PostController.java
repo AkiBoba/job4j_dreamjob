@@ -46,7 +46,8 @@ public class PostController {
     @PostMapping("/createPost")
     public String createPost(HttpServletRequest req) {
         String name = req.getParameter("name");
-        postService.add(new Post(1, name));
+        int city = Integer.parseInt(req.getParameter("city.id"));
+        postService.add(new Post(1, name, cityService.findById(city)));
         return "redirect:/posts";
     }
 

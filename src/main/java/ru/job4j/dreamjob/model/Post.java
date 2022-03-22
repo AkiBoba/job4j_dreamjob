@@ -9,12 +9,15 @@ public class Post implements Serializable {
     private String description;
     private String created;
     private City city;
+    private String cityName;
 
-    public Post(int id, String name, String description, String created) {
+    public Post(int id, String name, String description, String created, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.created = created;
+        this.city = city;
+        this.cityName = city.getName();
     }
 
     public Post(int id, String name) {
@@ -23,6 +26,13 @@ public class Post implements Serializable {
     }
 
     public Post() {
+    }
+
+    public Post(int id, String name, City city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.cityName = city.getName();
     }
 
     public int getId() {
@@ -75,4 +85,19 @@ public class Post implements Serializable {
         return Objects.hash(id, name, description, created);
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 }
