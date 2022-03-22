@@ -16,7 +16,6 @@ import java.util.List;
 
 @Controller
 public class PostController {
-
     private final PostService postService;
     private final CityService cityService;
 
