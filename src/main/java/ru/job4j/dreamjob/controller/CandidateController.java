@@ -35,11 +35,6 @@ public class CandidateController {
         return "addCandidate";
     }
 
-    @GetMapping("/formAddaCandidate")
-    public String formAddCandidate(Model model) {
-        return "addCandidate";
-    }
-
     @PostMapping("/createCandidate")
     public String createCandidate(HttpServletRequest req) {
         String name = req.getParameter("name");
