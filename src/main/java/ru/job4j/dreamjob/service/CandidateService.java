@@ -25,7 +25,7 @@ public class CandidateService {
 
     }
 
-    public Candidate findById(int id) {
+    public Candidate getById(int id) {
         return store.findById(id);
     }
 

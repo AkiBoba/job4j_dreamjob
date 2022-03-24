@@ -1,16 +1,18 @@
 package ru.job4j.dreamjob.controller;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 
 @Controller
 public class CandidateController {
@@ -36,22 +38,34 @@ public class CandidateController {
     }
 
     @PostMapping("/createCandidate")
-    public String createCandidate(HttpServletRequest req) {
-        String name = req.getParameter("name");
-        byte[] photo = req.getParameter("photo").getBytes(StandardCharsets.UTF_8);
-        candidateService.add(new Candidate(1, name, photo));
+    public String createCandidate(@ModelAttribute Candidate candidate,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
+        candidate.setPhoto(file.getBytes());
+        candidateService.add(candidate);
         return "redirect:/candidates";
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String updateCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute("candidate", candidateService.findById(id));
+        model.addAttribute("candidate", candidateService.getById(id));
         return "updateCandidate";
     }
 
     @PostMapping("/updateCandidate")
-    public String updateCandidate(@ModelAttribute Candidate candidate) {
+    public String updateCandidate(@ModelAttribute Candidate candidate,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
+        candidate.setPhoto(file.getBytes());
         candidateService.update(candidate);
         return "redirect:/candidates";
+    }
+
+    @GetMapping("/photoCandidate/{candidateId}")
+    public ResponseEntity<Resource> download(@PathVariable("candidateId") int candidateId) {
+        Candidate candidate = candidateService.getById(candidateId);
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .contentLength(candidate.getPhoto().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(candidate.getPhoto()));
     }
 }

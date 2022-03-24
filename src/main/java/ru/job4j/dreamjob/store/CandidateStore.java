@@ -25,6 +25,9 @@ public class CandidateStore {
         candidates.put(3, new Candidate(3, "Sidorov",
                 "Senior", "01-03-2022"));
     }
+//    private CandidateStore() {
+//
+//    }
 
     public Collection<Candidate> findAll() {
         return candidates.values();
