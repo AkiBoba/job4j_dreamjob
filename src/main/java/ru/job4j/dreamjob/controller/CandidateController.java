@@ -64,10 +64,10 @@ public class CandidateController {
     @GetMapping("/photoCandidate/{candidateId}")
     public ResponseEntity<Resource> download(@PathVariable("candidateId") int candidateId) {
         Candidate candidate = candidateService.getById(candidateId);
-        return ResponseEntity.ok()
-                .headers(new HttpHeaders())
-                .contentLength(candidate.getPhoto().length)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new ByteArrayResource(candidate.getPhoto()));
+            return ResponseEntity.ok()
+                    .headers(new HttpHeaders())
+                    .contentLength(candidate.getPhoto().length)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(new ByteArrayResource(candidate.getPhoto()));
     }
 }
