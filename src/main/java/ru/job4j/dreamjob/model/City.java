@@ -1,6 +1,7 @@
 package ru.job4j.dreamjob.model;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class City {
     private int id;
@@ -39,11 +40,11 @@ public class City {
             return false;
         }
         City city = (City) o;
-        return id == city.id;
+        return Objects.equals(name, city.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name);
     }
 }

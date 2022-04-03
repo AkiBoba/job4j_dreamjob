@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Фотография</label>
-                        <input type="file" class="form-control" name="file" id="file">
+                        <input type="file" class="form-control" name="file" id="file" th:field="*{city}">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
