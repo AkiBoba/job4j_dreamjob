@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import ru.job4j.dreamjob.service.CandidateService;
 import java.io.IOException;
 
 @Controller
+@ThreadSafe
 public class CandidateController {
 
     private final CandidateService candidateService;
