@@ -36,7 +36,13 @@
                 Регистрация нового пользователя
             </div>
             <div class="card-body">
-                <tr th:text="${message}"></tr>
+                <tr>
+                    <p th:text="${message}"></p>
+                    <div th:if="${mark !=null}">
+                        <td><a class="nav-item nav-link" th:href="@{/addUser}">Введите другой email</a>
+                    </div>
+
+                    </tr>
             </div>
         </div>
     </div>

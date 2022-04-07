@@ -12,6 +12,7 @@ import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -42,16 +43,19 @@ public class UserController {
     */
 
     @PostMapping("/registration")
-    public String registration(HttpServletRequest req, Model model, RedirectAttributes redirectAttributes) {
+    public String registration(HttpServletRequest req, Model model) {
 
         String mail = req.getParameter("mail");
-        Optional<User> regUser = userService.add(new User(0, mail));
+        boolean regUser = userService.add(new User(0, mail));
+/*        Optional<User> regUser = userService.add(new User(0, mail)); */
 
-        if (!regUser.isEmpty()) {
-            redirectAttributes.addAttribute("message", "Пользователь с такой почтой уже существует");
+        if (!regUser) {
+/*        if (!regUser.isEmpty()) {*/
+            model.addAttribute("message", "Пользователь с такой почтой уже существует");
+            model.addAttribute("mark", "mark");
             return "/registration";
         }
-        redirectAttributes.addAttribute("message", "Пользователь успешно зарегистрирован");
+        model.addAttribute("message", "Пользователь успешно зарегистрирован");
         return "/registration";
     }
 }

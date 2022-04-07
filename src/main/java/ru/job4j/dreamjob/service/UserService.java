@@ -8,6 +8,7 @@ import ru.job4j.dreamjob.store.PostDBStore;
 import ru.job4j.dreamjob.store.UserDBStore;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,9 +26,15 @@ public class UserService {
         return store.findAll();
 
     }
-
+/*
     public Optional<User> add(User user) {
-        return Optional.of(store.add(user));
+        return store.add(user);
+
+    }
+
+ */
+    public boolean add(User user) {
+        return store.add(user);
 
     }
 
