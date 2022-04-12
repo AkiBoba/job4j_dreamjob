@@ -46,11 +46,9 @@ public class UserController {
     public String registration(HttpServletRequest req, Model model) {
 
         String mail = req.getParameter("mail");
-        boolean regUser = userService.add(new User(0, mail));
-/*        Optional<User> regUser = userService.add(new User(0, mail)); */
+        Optional<User> regUser = userService.add(new User(0, mail));
 
-        if (!regUser) {
-/*        if (!regUser.isEmpty()) {*/
+        if (regUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
             model.addAttribute("mark", "mark");
             return "/registration";

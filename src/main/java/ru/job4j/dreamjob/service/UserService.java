@@ -33,7 +33,7 @@ public class UserService {
     }
 
  */
-    public boolean add(User user) {
+    public Optional<User> add(User user) {
         return store.add(user);
 
     }

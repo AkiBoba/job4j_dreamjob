@@ -37,25 +37,25 @@ public class UserDBStore {
         return users;
     }
 
-    public boolean add(User user) {
-        int res = 0;
+    public Optional<User> add(User user) {
+        User result = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(email) VALUES (?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+                                                            ) {
             ps.setString(1, user.getName());
-            res = ps.executeUpdate();
-            System.out.println(res);
+            ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     user.setId(id.getInt(1));
+
                 }
+                    result = user;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return res > 0;
-/*        return Optional.of(user);*/
+     return Optional.ofNullable(result);
     }
 
     public void update(User user) {
