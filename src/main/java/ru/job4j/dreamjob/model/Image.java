@@ -8,8 +8,6 @@ public class Image {
     private int id;
     private String name;
     private byte[] bytes;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(columnDefinition = "candidate_id")
     private int candidateId;
 
     public Image() {
