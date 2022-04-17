@@ -7,6 +7,7 @@ import ru.job4j.dreamjob.store.CandidateDbStore;
 import ru.job4j.dreamjob.store.CandidateStore;
 
 import java.util.Collection;
+import java.util.Map;
 
 @Service
 @ThreadSafe
@@ -16,6 +17,10 @@ public class CandidateService {
     public CandidateService(CandidateDbStore store) {
         this.store = store;
 
+    }
+
+    public Map<Integer, byte[]> findPhotos() {
+        return store.findPhotos();
     }
 
     public Collection<Candidate> findAll() {
@@ -34,5 +39,9 @@ public class CandidateService {
 
     public void update(Candidate candidate) {
         store.update(candidate);
+    }
+
+    public byte[] getPhotoRepo(Integer candidateId) {
+        return store.getPhotoRepo(candidateId);
     }
 }

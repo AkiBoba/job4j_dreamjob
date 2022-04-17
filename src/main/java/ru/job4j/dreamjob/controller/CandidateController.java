@@ -11,8 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.Image;
 import ru.job4j.dreamjob.service.CandidateService;
+import ru.job4j.dreamjob.service.ImageService;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Controller
@@ -20,16 +25,19 @@ import java.io.IOException;
 public class CandidateController {
 
     private final CandidateService candidateService;
+    private final ImageService imageService;
 
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, ImageService imageService) {
 
         this.candidateService = candidateService;
 
+        this.imageService = imageService;
     }
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
         model.addAttribute("candidates", candidateService.findAll());
+        model.addAttribute("photos", candidateService.findPhotos());
         return "candidates";
     }
 
@@ -44,7 +52,18 @@ public class CandidateController {
                                   @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
         candidateService.add(candidate);
+        /* imageService.add(file, candidate);
+        imageService.add(newImage(file, candidate)); */
         return "redirect:/candidates";
+    }
+
+    static Image newImage(MultipartFile file, Candidate candidate) throws IOException {
+        Image image = new Image();
+        image.setId(0);
+        image.setName(file.getOriginalFilename());
+        image.setBytes(file.getBytes());
+        image.setCandidateId(candidate.getId());
+        return image;
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
@@ -58,6 +77,7 @@ public class CandidateController {
                                   @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
         candidateService.update(candidate);
+
         return "redirect:/candidates";
     }
 
@@ -66,8 +86,8 @@ public class CandidateController {
         Candidate candidate = candidateService.getById(candidateId);
             return ResponseEntity.ok()
                     .headers(new HttpHeaders())
-                    .contentLength(candidate.getPhoto().length)
+                    .contentLength(candidateService.getPhotoRepo(candidateId).length)
                     .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .body(new ByteArrayResource(candidate.getPhoto()));
+                    .body(new ByteArrayResource(candidateService.getPhotoRepo(candidateId)));
     }
 }

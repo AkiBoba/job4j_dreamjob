@@ -7,11 +7,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CandidateDbStore {
-
+    private final Map<Integer, byte[]> photos = new HashMap<>();
     private final BasicDataSource pool;
 
     public CandidateDbStore(BasicDataSource pool) {
@@ -36,7 +38,7 @@ public class CandidateDbStore {
 
     public Candidate add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate (name) VALUES (?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
@@ -49,6 +51,7 @@ public class CandidateDbStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        photos.put(candidate.getId(), candidate.getPhoto());
         return candidate;
     }
 
@@ -62,6 +65,7 @@ public class CandidateDbStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        photos.putIfAbsent(candidate.getId(), candidate.getPhoto());
 
     }
 
@@ -79,5 +83,13 @@ public class CandidateDbStore {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Map<Integer, byte[]> findPhotos() {
+        return photos;
+    }
+
+    public byte[] getPhotoRepo(Integer candidateId) {
+        return photos.get(candidateId);
     }
 }

@@ -14,6 +14,11 @@ import java.util.Optional;
 
 @Repository
 public class UserDBStore {
+    private final static String SQL_SELECT_ALL = "select * from users";
+    private final static String SQL_INSERT_INTO = "INSERT INTO users(name, email, password, city) VALUES (?, ?, ?, ?)";
+    private final static String SQL_UPDATE = "UPDATE users SET NAME = ?, EMAIL = ?, CITY = ? WHERE id = ?";
+    private final static String SQL_SELECT_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private final static String SQL_SELECT_BY_EMAIL_AND_PASSWORD = "SELECT * FROM users WHERE email = ? and password = ?";
 
     private final BasicDataSource pool;
 
@@ -24,11 +29,18 @@ public class UserDBStore {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users")
+             PreparedStatement ps =  cn.prepareStatement(SQL_SELECT_ALL)
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    users.add(new User(it.getInt("id"), it.getString("email")));
+                    users.add(new User(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("email"),
+                            it.getString("password"),
+                            it.getString("city")
+                        )
+                    );
                 }
             }
         } catch (Exception e) {
@@ -40,10 +52,14 @@ public class UserDBStore {
     public Optional<User> add(User user) {
         User result = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(email) VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement(SQL_INSERT_INTO,
                      PreparedStatement.RETURN_GENERATED_KEYS)
                                                             ) {
             ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setString(4, user.getCity()
+            );
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -60,10 +76,12 @@ public class UserDBStore {
 
     public void update(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE users SET EMAIL = ? WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement(SQL_UPDATE)
         ) {
-            ps.setInt(2, user.getId());
+            ps.setInt(3, user.getId());
             ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getCity());
             int res = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,17 +91,44 @@ public class UserDBStore {
 
     public User findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement(SQL_SELECT_BY_ID)
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new User(it.getInt("id"), it.getString("email"));
+                    return new User(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("email"),
+                            it.getString("password"));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(SQL_SELECT_BY_EMAIL_AND_PASSWORD)
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    user = new User(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("email"),
+                            it.getString("password"),
+                            it.getString("city")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(user);
     }
 }

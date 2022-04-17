@@ -27,8 +27,16 @@
             <div class="card-body">
                 <form th:action="@{/registration}" method="POST">
                     <div class="form-group">
+                        <label for="mail">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                    </div>
+                    <div class="form-group">
                         <label for="mail">Почта</label>
                         <input type="text" class="form-control" name="mail" id="mail">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="text" class="form-control" name="password" id="password">
                     </div>
                     <div class="form-group">
                         <label for="city.id">Город</label>
