@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.Image;
+import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.ImageService;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +37,13 @@ public class CandidateController {
     }
 
     @GetMapping("/candidates")
-    public String candidates(Model model) {
+    public String candidates(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("candidates", candidateService.findAll());
         model.addAttribute("photos", candidateService.findPhotos());
         return "candidates";
