@@ -6,14 +6,11 @@ import ru.job4j.dreamjob.model.Candidate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class CandidateDbStore {
-    private final Map<Integer, byte[]> photos = new HashMap<>();
+    private final Map<Integer, Set<byte[]>> photos = new HashMap<>();
     private final BasicDataSource pool;
 
     public CandidateDbStore(BasicDataSource pool) {
@@ -51,8 +48,8 @@ public class CandidateDbStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        photos.put(candidate.getId(), candidate.getPhoto());
-        return candidate;
+        photos.put(candidate.getId(), candidate.getPhotos());
+         return candidate;
     }
 
     public void update(Candidate candidate) {
@@ -65,7 +62,7 @@ public class CandidateDbStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        photos.putIfAbsent(candidate.getId(), candidate.getPhoto());
+        photos.putIfAbsent(candidate.getId(), candidate.getPhotos());
 
     }
 
@@ -85,11 +82,11 @@ public class CandidateDbStore {
         return null;
     }
 
-    public Map<Integer, byte[]> findPhotos() {
+    public Map<Integer, Set<byte[]>> findPhotos() {
         return photos;
     }
 
-    public byte[] getPhotoRepo(Integer candidateId) {
+    public Set<byte[]> getPhotoRepo(Integer candidateId) {
         return photos.get(candidateId);
     }
 }

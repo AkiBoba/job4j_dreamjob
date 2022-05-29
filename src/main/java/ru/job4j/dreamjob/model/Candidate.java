@@ -1,13 +1,16 @@
 package ru.job4j.dreamjob.model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Candidate {
     private int id;
     private String name;
     private String desc;
     private String created;
-    private byte[] photo;
+    private Set<byte[]> photos;
 
     public Candidate(int id, String name, String desc, String created) {
         this.id = id;
@@ -24,10 +27,10 @@ public class Candidate {
     public Candidate() {
     }
 
-    public Candidate(int id, String name, byte[] photo) {
+    public Candidate(int id, String name, Set<byte[]> photos) {
         this.id = id;
         this.name = name;
-        this.photo = photo;
+        this.photos = photos;
     }
 
     public int getId() {
@@ -80,11 +83,15 @@ public class Candidate {
         return Objects.hash(id, name, desc, created);
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public Set<byte[]> getPhotos() {
+        return photos;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhoto(int id, byte[] bytes) {
+        if (this.photos == null) {
+            photos = new HashSet<>();
+        }
+        this.photos.add(bytes);
+
     }
 }

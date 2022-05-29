@@ -4,10 +4,10 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.store.CandidateDbStore;
-import ru.job4j.dreamjob.store.CandidateStore;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @ThreadSafe
@@ -19,7 +19,7 @@ public class CandidateService {
 
     }
 
-    public Map<Integer, byte[]> findPhotos() {
+    public Map<Integer, Set<byte[]>> findPhotos() {
         return store.findPhotos();
     }
 
@@ -41,7 +41,7 @@ public class CandidateService {
         store.update(candidate);
     }
 
-    public byte[] getPhotoRepo(Integer candidateId) {
+    public Set<byte[]> getPhotoRepo(Integer candidateId) {
         return store.getPhotoRepo(candidateId);
     }
 }
